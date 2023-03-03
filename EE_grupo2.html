@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Exame Época Especial</title>
+    <style>
+        body { margin: 0; }
+    </style>
+</head>
+<body>
+<script src="https://threejs.org/build/three.js"></script>
+<script>
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera( 50, 1, 0.1, 1000 );    //a camera e um quadrado
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize( 700, 700 );                                      //valor aleatorio, 700
+    document.body.appendChild( renderer.domElement );
+
+    const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
+
+    const geometryCube = new THREE.BoxGeometry( 1, 1, 1 );
+    const materialCube = new THREE.MeshStandardMaterial( { color: 0x00f000 } );
+    const cube = new THREE.Mesh( geometryCube, materialCube );
+    materialCube.transparent = true;
+    materialCube.opacity = 0.5;
+
+    const geometrySphere = new THREE.SphereGeometry( 0.5, 32, 16 );
+    const materialSphere = new THREE.MeshStandardMaterial( { color: 0xf00000 } );
+    const sphere = new THREE.Mesh( geometrySphere, materialSphere );
+
+    const sphere2 = new THREE.Mesh( geometrySphere, materialSphere );
+    sphere2.position.y = 1;
+
+    camera.position.z = 7;
+    camera.position.y = 2;
+    camera.lookAt(0,1,0);
+
+    directionalLight.position.z = 5;
+    directionalLight.position.y = 3;
+
+    scene.add( directionalLight );
+    scene.add( cube );
+    scene.add( sphere );
+    scene.add( sphere2 );
+    let t =1;
+    let u =1;
+    let k =1;
+
+    function animate() {
+
+        requestAnimationFrame( animate );
+
+        t = (Date.now()%4000)/4000 * Math.PI * 2;               //usa o tempo como funcao, uma volta a cada 4 segundos (4000 ms)
+        cube.rotation.y = t;
+        u = Math.cos((Date.now()%4000)/4000 * Math.PI * 2);     //usa o coseno do tempo, 4 segundos
+        sphere2.scale.set( u, u, u );
+        k = Math.cos((Date.now()%2000)/2000 * Math.PI * 2)/4+0.8; //usa o coseno do tempo, a cada 2 segundos
+        sphere2.position.y = k;
+        renderer.render( scene, camera );
+
+    }
+
+    animate();
+</script>
+</body>
+</html>
