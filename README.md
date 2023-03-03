@@ -1,3 +1,3 @@
 # portfolio
 
-Small academic exercises and other projects.
+Academic exercises and other personal projects.
